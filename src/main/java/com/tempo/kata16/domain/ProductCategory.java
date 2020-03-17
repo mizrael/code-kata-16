@@ -14,4 +14,5 @@ public class ProductCategory {
     public static final ProductCategory Physical = new ProductCategory("physical");
     public static final ProductCategory Virtual = new ProductCategory("virtual");
     public static final ProductCategory Membership = new ProductCategory("membership");
+    public static final ProductCategory Videos = new ProductCategory("videos");
 }

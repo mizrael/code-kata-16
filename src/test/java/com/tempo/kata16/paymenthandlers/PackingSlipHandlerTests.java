@@ -6,9 +6,16 @@ import com.tempo.kata16.domain.Order;
 import com.tempo.kata16.domain.Payment;
 import com.tempo.kata16.domain.ProductCategory;
 import com.tempo.kata16.services.PackingSlipService;
+import com.tempo.kata16.services.RoyaltyService;
+import com.tempo.kata16.services.ShippingService;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
+
+import java.util.Arrays;
 
 public class PackingSlipHandlerTests{
     public PackingSlipHandlerTests(){}
@@ -27,12 +34,14 @@ public class PackingSlipHandlerTests{
         Order order = new Order(customer, lineItems, null);
         Payment payment = new Payment(order);
 
-        PackingSlipService service = mock(PackingSlipService.class);
+        PackingSlipService packingSlipService = mock(PackingSlipService.class);
+        ShippingService shippingService = mock(ShippingService.class);
+        RoyaltyService royaltyService = mock(RoyaltyService.class);
         
-        PaymentHandler sut = new PackingSlipHandler(service);
+        PaymentHandler sut = new PackingSlipHandler(shippingService, royaltyService, packingSlipService);
         sut.run(payment);
 
-        verify(service, never()).generateForShipping(payment);
+        verify(shippingService, never()).generatePackingSlip(order);
     }
 
     @Test
@@ -49,12 +58,14 @@ public class PackingSlipHandlerTests{
         Order order = new Order(customer, lineItems, null);
         Payment payment = new Payment(order);
 
-        PackingSlipService service = mock(PackingSlipService.class);
+        PackingSlipService packingSlipService = mock(PackingSlipService.class);
+        ShippingService shippingService = mock(ShippingService.class);
+        RoyaltyService royaltyService = mock(RoyaltyService.class);
         
-        PaymentHandler sut = new PackingSlipHandler(service);
+        PaymentHandler sut = new PackingSlipHandler(shippingService, royaltyService, packingSlipService);
         sut.run(payment);
 
-        verify(service, times(1)).generateForShipping(payment);
+        verify(shippingService, times(1)).generatePackingSlip(order);
     }
 
     @Test
@@ -71,11 +82,58 @@ public class PackingSlipHandlerTests{
         Order order = new Order(customer, lineItems, null);
         Payment payment = new Payment(order);
 
-        PackingSlipService service = mock(PackingSlipService.class);
+        PackingSlipService packingSlipService = mock(PackingSlipService.class);
+        ShippingService shippingService = mock(ShippingService.class);
+        RoyaltyService royaltyService = mock(RoyaltyService.class);
         
-        PaymentHandler sut = new PackingSlipHandler(service);
+        PaymentHandler sut = new PackingSlipHandler(shippingService, royaltyService, packingSlipService);
         sut.run(payment);
 
-        verify(service, times(1)).generateForRoyalty(payment);
+        verify(royaltyService, times(1)).generatePackingSlip(order);
+    }
+
+    @Test
+    public void runShouldAddFirstAidGiftWhenRequested() throws Exception {
+        LineItem[] lineItems = new LineItem[]{
+            new LineItem("learning-to-ski", "Learning to Ski", new ProductCategory[]{
+                ProductCategory.Videos
+            })
+        };
+        Customer customer = mock(Customer.class);
+        Order order = new Order(customer, lineItems, null);
+        Payment payment = new Payment(order);
+
+        PackingSlipService packingSlipService = mock(PackingSlipService.class);
+        ShippingService shippingService = mock(ShippingService.class);
+        RoyaltyService royaltyService = mock(RoyaltyService.class);
+        
+        PaymentHandler sut = new PackingSlipHandler(shippingService, royaltyService, packingSlipService);
+        sut.run(payment);
+
+        String[] gifts = order.getGiftSkus();
+        assertNotNull(gifts);
+        assertTrue(gifts.length == 1);
+        assertTrue(Arrays.binarySearch(gifts, "first-aid") == 0); 
+    }
+
+    @Test
+    public void runShouldGeneratePackingSlip() throws Exception {
+        LineItem[] lineItems = new LineItem[]{
+            new LineItem("item1", "item1", new ProductCategory[]{
+                ProductCategory.Physical
+            })
+        };
+        Customer customer = mock(Customer.class);
+        Order order = new Order(customer, lineItems, null);
+        Payment payment = new Payment(order);
+
+        PackingSlipService packingSlipService = mock(PackingSlipService.class);
+        ShippingService shippingService = mock(ShippingService.class);
+        RoyaltyService royaltyService = mock(RoyaltyService.class);
+        
+        PaymentHandler sut = new PackingSlipHandler(shippingService, royaltyService, packingSlipService);
+        sut.run(payment);
+
+        verify(packingSlipService, times(1)).generate(order);
     }
 }

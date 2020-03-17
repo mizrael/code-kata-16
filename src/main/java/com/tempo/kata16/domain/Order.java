@@ -1,5 +1,7 @@
 package com.tempo.kata16.domain;
 
+import java.util.HashSet;
+
 public class Order{
     public Order(final Customer customer, final LineItem[] lineItems, final Agent agent) throws IllegalArgumentException {
         if (lineItems == null || lineItems.length == 0)
@@ -8,6 +10,8 @@ public class Order{
 
         _customer = customer;
         _agent = agent;
+
+        _giftSkus = new HashSet<String>();
     }
 
     private final Customer _customer;
@@ -23,5 +27,15 @@ public class Order{
     private final Agent _agent;
 	public Agent getAgent() {
 		return _agent;
-	}
+    }
+    
+    private HashSet<String> _giftSkus;
+	public void addGiftBySku(String sku) {
+        if(!_giftSkus.contains(sku))
+            _giftSkus.add(sku);
+    }
+    
+    public String[] getGiftSkus(){
+        return _giftSkus.toArray(new String[0]);
+    }
 }
