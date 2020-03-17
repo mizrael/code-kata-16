@@ -1,4 +1,4 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import com.tempo.kata16.domain.LineItem;
 import com.tempo.kata16.domain.Order;
@@ -8,10 +8,10 @@ import com.tempo.kata16.services.PackingSlipService;
 
 // If the payment is for a physical product, generate a packing slip for shipping.
 // If the payment is for a book, create a duplicate packing slip for the royalty department.
-public class PackingSlipRule implements Rule{
+public class PackingSlipHandler implements PaymentHandler{
     private final PackingSlipService _service;
 
-    public PackingSlipRule(final PackingSlipService service){
+    public PackingSlipHandler(final PackingSlipService service){
         _service = service;
     }
 

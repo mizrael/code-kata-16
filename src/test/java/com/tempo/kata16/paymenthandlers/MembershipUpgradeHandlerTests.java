@@ -1,4 +1,4 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import static org.mockito.Mockito.*;
 
@@ -13,7 +13,7 @@ import com.tempo.kata16.services.NotificationService;
 
 import org.junit.Test;
 
-public class MembershipUpgradeRuleTests{
+public class MembershipUpgradeHandlerTests{
     @Test
     public void runShouldUpgradeMembership() throws Exception {
         Membership membershipSilver = new Membership("membership-silver", null);
@@ -35,7 +35,7 @@ public class MembershipUpgradeRuleTests{
         
         NotificationService notificationService = mock(NotificationService.class);
 
-        Rule sut = new MembershipUpgradeRule(repo, notificationService);
+        PaymentHandler sut = new MembershipUpgradeHandler(repo, notificationService);
         sut.run(payment);
 
         verify(customer, times(1)).addMembership(membershipGold, notificationService);
@@ -62,7 +62,7 @@ public class MembershipUpgradeRuleTests{
         
         NotificationService notificationService = mock(NotificationService.class);
 
-        Rule sut = new MembershipUpgradeRule(repo, notificationService);
+        PaymentHandler sut = new MembershipUpgradeHandler(repo, notificationService);
         sut.run(payment);
 
         verify(notificationService, times(1)).notify(customer, membershipGold);

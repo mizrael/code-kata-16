@@ -1,7 +1,7 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import com.tempo.kata16.domain.Payment;
 
-public interface Rule {
+public interface PaymentHandler {
     void run(final Payment payment);
 }

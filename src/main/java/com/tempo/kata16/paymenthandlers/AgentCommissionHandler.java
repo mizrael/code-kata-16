@@ -1,4 +1,4 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import com.tempo.kata16.domain.Agent;
 import com.tempo.kata16.domain.LineItem;
@@ -7,7 +7,7 @@ import com.tempo.kata16.domain.Payment;
 import com.tempo.kata16.domain.ProductCategory;
 
 // If the payment is for a physical product or a book, generate a commission payment to the agent.
-public class AgentCommissionRule implements Rule{
+public class AgentCommissionHandler implements PaymentHandler{
 
     @Override
     public void run(Payment payment) {

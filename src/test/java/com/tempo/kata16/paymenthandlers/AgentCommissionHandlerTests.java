@@ -1,4 +1,4 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import static org.mockito.Mockito.*;
 
@@ -11,7 +11,7 @@ import com.tempo.kata16.domain.ProductCategory;
 
 import org.junit.Test;
 
-public class AgentCommissionRuleTests{
+public class AgentCommissionHandlerTests{
     @Test
     public void runShouldNotGenerateAgentCommissionIfItemsInvalid(){
         LineItem[] lineItems = new LineItem[]{
@@ -25,7 +25,7 @@ public class AgentCommissionRuleTests{
         Order order = new Order(customer, lineItems, agent);
         Payment payment = new Payment(order);
 
-        Rule sut = new AgentCommissionRule();
+        PaymentHandler sut = new AgentCommissionHandler();
         sut.run(payment);
 
         verify(agent, never()).generateCommission(any());
@@ -46,7 +46,7 @@ public class AgentCommissionRuleTests{
         Order order = new Order(customer, lineItems, agent);
         Payment payment = new Payment(order);
 
-        Rule sut = new AgentCommissionRule();
+        PaymentHandler sut = new AgentCommissionHandler();
         sut.run(payment);
 
         verify(agent, times(1)).generateCommission(any());
@@ -70,7 +70,7 @@ public class AgentCommissionRuleTests{
         Order order = new Order(customer, lineItems, agent);
         Payment payment = new Payment(order);
 
-        Rule sut = new AgentCommissionRule();
+        PaymentHandler sut = new AgentCommissionHandler();
         sut.run(payment);
 
         verify(agent, times(1)).generateCommission(any());
@@ -91,7 +91,7 @@ public class AgentCommissionRuleTests{
         Order order = new Order(customer, lineItems, agent);
         Payment payment = new Payment(order);
 
-        Rule sut = new AgentCommissionRule();
+        PaymentHandler sut = new AgentCommissionHandler();
         sut.run(payment);
 
         verify(agent, times(1)).generateCommission(any());

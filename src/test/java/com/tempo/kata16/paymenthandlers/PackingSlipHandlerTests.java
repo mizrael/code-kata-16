@@ -1,4 +1,4 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import com.tempo.kata16.domain.Customer;
 import com.tempo.kata16.domain.LineItem;
@@ -10,8 +10,8 @@ import com.tempo.kata16.services.PackingSlipService;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
-public class PackingSlipRuleTests{
-    public PackingSlipRuleTests(){}
+public class PackingSlipHandlerTests{
+    public PackingSlipHandlerTests(){}
 
     @Test
     public void runShouldNotGenerateForShippingWhenNoValidItemsAvailable() throws Exception {
@@ -29,7 +29,7 @@ public class PackingSlipRuleTests{
 
         PackingSlipService service = mock(PackingSlipService.class);
         
-        Rule sut = new PackingSlipRule(service);
+        PaymentHandler sut = new PackingSlipHandler(service);
         sut.run(payment);
 
         verify(service, never()).generateForShipping(payment);
@@ -51,7 +51,7 @@ public class PackingSlipRuleTests{
 
         PackingSlipService service = mock(PackingSlipService.class);
         
-        Rule sut = new PackingSlipRule(service);
+        PaymentHandler sut = new PackingSlipHandler(service);
         sut.run(payment);
 
         verify(service, times(1)).generateForShipping(payment);
@@ -73,7 +73,7 @@ public class PackingSlipRuleTests{
 
         PackingSlipService service = mock(PackingSlipService.class);
         
-        Rule sut = new PackingSlipRule(service);
+        PaymentHandler sut = new PackingSlipHandler(service);
         sut.run(payment);
 
         verify(service, times(1)).generateForRoyalty(payment);

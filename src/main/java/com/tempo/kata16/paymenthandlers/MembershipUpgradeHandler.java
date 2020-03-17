@@ -1,4 +1,4 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import com.tempo.kata16.domain.Payment;
 import com.tempo.kata16.domain.Order;
@@ -11,12 +11,12 @@ import com.tempo.kata16.services.NotificationService;
 
 // If the payment is an upgrade to a membership, apply the upgrade.
 // If the payment is for a membership or upgrade, e-mail the owner and inform them of the activation/upgrade.
-public class MembershipUpgradeRule implements Rule {
+public class MembershipUpgradeHandler implements PaymentHandler {
 
     private final MembershipRepository _repo;
     private final NotificationService _notificationService;
     
-    public MembershipUpgradeRule(final MembershipRepository repo, final NotificationService notificationService) {
+    public MembershipUpgradeHandler(final MembershipRepository repo, final NotificationService notificationService) {
         _repo = repo;
         _notificationService = notificationService;
 	}

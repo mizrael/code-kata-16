@@ -1,4 +1,4 @@
-package com.tempo.kata16.rules;
+package com.tempo.kata16.paymenthandlers;
 
 import com.tempo.kata16.domain.LineItem;
 import com.tempo.kata16.domain.Membership;
@@ -12,7 +12,7 @@ import com.tempo.kata16.services.NotificationService;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
-public class MembershipActivateRuleTests{
+public class MembershipActivateHandlerTests{
     @Test
     public void runShouldDoNothingIfNoMembershipsInOrder() throws Exception {
         LineItem[] lineItems = new LineItem[]{
@@ -26,7 +26,7 @@ public class MembershipActivateRuleTests{
 
         MembershipRepository service = mock(MembershipRepository.class);
         NotificationService notificationService = mock(NotificationService.class);
-        Rule sut = new MembershipActivateRule(service, notificationService);
+        PaymentHandler sut = new MembershipActivateHandler(service, notificationService);
         sut.run(payment);
 
         verify(customer, never()).addMembership(any(), any());
@@ -49,7 +49,7 @@ public class MembershipActivateRuleTests{
 
         NotificationService notificationService = mock(NotificationService.class);
 
-        Rule sut = new MembershipActivateRule(repo, notificationService);
+        PaymentHandler sut = new MembershipActivateHandler(repo, notificationService);
         sut.run(payment);
 
         verify(customer, times(1)).addMembership(membership, notificationService);
@@ -72,7 +72,7 @@ public class MembershipActivateRuleTests{
 
         NotificationService notificationService = mock(NotificationService.class);
 
-        Rule sut = new MembershipActivateRule(repo, notificationService);
+        PaymentHandler sut = new MembershipActivateHandler(repo, notificationService);
         sut.run(payment);
 
         verify(notificationService, times(1)).notify(customer, membership);

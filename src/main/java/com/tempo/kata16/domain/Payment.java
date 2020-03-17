@@ -1,6 +1,6 @@
 package com.tempo.kata16.domain;
 
-import com.tempo.kata16.rules.Rule;
+import com.tempo.kata16.paymenthandlers.PaymentHandler;
 
 public class Payment {
     public Payment(final Order order){
@@ -12,8 +12,8 @@ public class Payment {
         return _order;
     }
 
-    public void Process(Rule[] rules){
-        for(Rule rule : rules)
+    public void Process(PaymentHandler[] rules){
+        for(PaymentHandler rule : rules)
             rule.run(this);
     }
 }
